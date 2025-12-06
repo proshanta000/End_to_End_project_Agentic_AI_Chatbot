@@ -6,6 +6,7 @@ from src.langraph_agenticai.graph.graph_buileder import GraphBuilder
 from src.langraph_agenticai.ui.streamlitui.display_result import DisplayResultStreamlit
 
 
+
 def load_langgraph_agenticai_app():
     """ 
     Loads and runs the Langgraph AgenticAI application with Streamlit UI.
@@ -14,7 +15,7 @@ def load_langgraph_agenticai_app():
     implementting exception handling for robustness.
     """
 
-    # Load UI
+    # Load UI and get user input options
     ui=LoadStreamlitUI()
     user_input =ui.load_streamlit_ui()
 
@@ -22,15 +23,18 @@ def load_langgraph_agenticai_app():
         st.error("Error: Failed to load user input from the UI.")
         return
     
+    # Text input for user messages
     user_message = st.chat_input("Enter Your message:")
 
     if user_message:
         try:
-            # Configure LLM
+            # Configure LLM based on user selection
             if user_input["selected_llm"] == "Groq":
                 llm_model = GroqLLM(user_controls_input = user_input)
             elif user_input["selected_llm"] == "Gemini":
                 llm_model = GeminiLLM(user_controls_input = user_input)
+            
+            # Initialize the LLM config object
             obj_llm_config = llm_model
             model =obj_llm_config.get_llm_model()
 
@@ -44,10 +48,11 @@ def load_langgraph_agenticai_app():
                 st.error("Error: No use case selected")
                 return
             
-            # Graph Builder
+            # Graph Builder initialization with the selected model
             graph_builder = GraphBuilder(model=model)
 
             try:
+                # Setup the graph based on the selected use case and display results
                 graph = graph_builder.setup_graph(usecase)
                 DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
 

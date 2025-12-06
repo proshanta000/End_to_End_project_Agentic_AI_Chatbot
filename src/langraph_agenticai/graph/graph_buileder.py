@@ -4,7 +4,16 @@ from src.langraph_agenticai.nodes.basic_chatbot_node import BasicChatbotNode
 
 
 class GraphBuilder:
+    """
+    Class to build and manage the LangGraph state graph.
+    """
     def __init__(self, model):
+        """
+        Initialize the GraphBuilder with a specific LLM model.
+        
+        Args:
+            model: The LLM model instance to be used by the graph nodes.
+        """
         self.llm = model
         self.graph_builder=StateGraph(State)
 
@@ -18,9 +27,11 @@ class GraphBuilder:
         """
         self.basic_chatbot_build_node = BasicChatbotNode(self.llm)
         # --- node ---
+        # Add the chatbot node to the graph
         self.graph_builder.add_node("chatbot",self.basic_chatbot_build_node.process )
 
         # --- edge ---
+        # Define the flow: Start -> Chatbot -> End
         self.graph_builder.add_edge(START, "chatbot")
         self.graph_builder.add_edge("chatbot", END)
 

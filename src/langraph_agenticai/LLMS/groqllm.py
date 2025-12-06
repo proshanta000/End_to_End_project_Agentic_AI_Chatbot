@@ -4,10 +4,28 @@ from langchain_groq import ChatGroq
 
 
 class GroqLLM:
+    """
+    Handles initialization and configuration of the Groq LLM.
+    """
     def __init__(self, user_controls_input):
+        """
+        Initialize with user input controls.
+        
+        Args:
+            user_controls_input (dict): Dictionary containing API keys and model selections.
+        """
         self.user_controls_input = user_controls_input
 
     def get_llm_model(self):
+        """
+        Retrieves the configured Groq LLM instance.
+
+        Returns:
+            ChatGroq: An instance of the Groq model.
+        
+        Raises:
+            ValueError: If there is an error in initializing the model.
+        """
         try:
             groq_api_key = self.user_controls_input["GROQ_API_KEY"]
             selected_groq_model = self.user_controls_input["selected_groq_model"]

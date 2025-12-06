@@ -1,7 +1,16 @@
 from configparser import ConfigParser
 
 class Config:
+    """
+    Configuration helper class to read settings from the INI file.
+    """
     def __init__(self, config_file=r"src\langraph_agenticai\ui\uiconfigfile.ini"):
+        """
+        Initialize the Config parser.
+        
+        Args:
+            config_file (str): Path to the configuration file.
+        """
         self.config= ConfigParser()
         self.config.read(config_file)
 
