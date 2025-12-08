@@ -8,3 +8,5 @@ langchain-openai
 faiss-cpu
 streamlit
 tavily-python
+wikipedia
+Arxiv

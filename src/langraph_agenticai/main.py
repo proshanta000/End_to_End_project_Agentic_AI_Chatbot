@@ -4,6 +4,7 @@ from src.langraph_agenticai.LLMS.groqllm import GroqLLM
 from src.langraph_agenticai.LLMS.geminillm import GeminiLLM
 from src.langraph_agenticai.graph.graph_buileder import GraphBuilder
 from src.langraph_agenticai.ui.streamlitui.display_result import DisplayResultStreamlit
+from src.langraph_agenticai.ui.streamlitui.loadui import LoadStreamlitUI
 
 
 
@@ -22,9 +23,16 @@ def load_langgraph_agenticai_app():
     if not user_input:
         st.error("Error: Failed to load user input from the UI.")
         return
-    
+   
     # Text input for user messages
-    user_message = st.chat_input("Enter Your message:")
+    if st.session_state.ISFetchButtonClicked:
+        user_message = st.session_state.timeframe and st.session_state.topicInput
+    else:
+        # Corrected conditional check:
+        if user_input['selected_usecase'] == 'Basic Chatbot' or user_input['selected_usecase'] == 'Chatbot With Web': 
+            user_message = st.chat_input("Enter Your message:")
+        else:
+            user_message = ''
 
     if user_message:
         try:
@@ -49,7 +57,8 @@ def load_langgraph_agenticai_app():
                 return
             
             # Graph Builder initialization with the selected model
-            graph_builder = GraphBuilder(model=model)
+            topicInput = st.session_state.topicInput if "topicInput" in st.session_state else None
+            graph_builder = GraphBuilder(model=model, topicInput=topicInput)
 
             try:
                 # Setup the graph based on the selected use case and display results
