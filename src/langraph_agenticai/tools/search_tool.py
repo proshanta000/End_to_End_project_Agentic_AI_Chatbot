@@ -33,7 +33,7 @@ def get_tools():
         return _arxiv_api_wrapper_instance.run(query)
 
     # Tavily instance only created once
-    Tavily = TavilySearchResults(max_result=2)
+    Tavily = TavilySearchResults(max_results=2)
 
     tools = [wikipedia_search, arxiv_search, Tavily]
     return tools

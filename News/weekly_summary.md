@@ -1,33 +1,44 @@
-# Weekly  News Summary
+### 2024-01-05 Fifa will scan World Cup players to make offside avatars 
+Fifa plans to create AI-enabled 3D avatars of every player at the 2026 World Cup to enhance the tournament's semi-automated offside technology. Each player will be scanned, a process that should take just one second and only needs to be done once during their pre-tournament photo shoot.
 
-### 2025-12-07 Virat Kohli Unlocks 'Version 2.0' with Aggressive ODI Approach
-Indian cricket star Virat Kohli has showcased a remarkable transformation in his batting style during the recent ODI series against South Africa, marking an "upgrade" rather than just a comeback. He amassed an impressive 302 runs from 258 balls across three matches, boasting a strike rate of 117.05, including two centuries and an unbeaten 65*. This renewed aggressive approach signals a significant shift in his game, demonstrating his adaptability and continued dominance at the highest level, which is crucial for India's future white-ball campaigns.
-**Source:** [Read more](https://www.hindustantimes.com/cricket/virat-kohli-kills-his-old-self-to-unlock-version-2-0-this-not-a-comeback-it-is-an-upgrade-101765043239484.html)
+**Source:** [Read more](https://www.bbc.com/sport/football/articles/c62ver6z7z8o)
 
-### 2025-12-05 Cricket World News: Injuries, Heroics, and Milestones Across Formats
-The cricket world has seen a flurry of significant events, including injuries to key New Zealand players Tom Blundell, Blair Tickner, and Mitchell Henry, with Mitch Hay poised for a Test debut as Kyle Jamieson returns to the Plunket Shield. Meanwhile, Shai Hope's resilient batting helped West Indies push New Zealand into a fifth-day battle, highlighting his crucial role in stabilizing the team. Historic milestones were also recorded, with Joe Root's maiden Test century in Australia and Mitchell Starc surpassing Wasim Akram in Ashes wickets, underscoring the ongoing drama and record-breaking performances in international cricket. Domestically, Sanju Samson's stellar performance led Kerala to victory over Mumbai, while Baroda crushed Gujarat, showcasing emerging talents and strong team efforts in regional tournaments.
-**Source:** [Read more](https://www.espn.com/cricket/series/17983/video/1513824/thailand-vs-indonesia-1st-match-sea-games-mens-twenty20-cricket-competition-2025-26)
+### 2024-01-09 FIFA Wants TikTok as Video Content Partner for 2026 World Cup 
+FIFA has selected TikTok as the primary platform for distributing video content, including original content and livestreaming of select match moments. The partnership will cover the 2026 FIFA World Cup, which will be hosted in 16 cities across Canada, Mexico, and the US.
 
-### 2025-12-05 Oprah Winfrey Praises Australia's Social Media Ban
-Global media mogul Oprah Winfrey has publicly commended Australia's recent social media ban during her visit to Sydney for a speaking tour. Her endorsement highlights the growing international debate around regulating social media platforms and their impact on society. This praise from such an influential figure could add significant weight to Australia's policy, potentially influencing other nations considering similar measures to curb online harms and improve digital well-being.
-**Source:** [Read more](https://www.skynews.com.au/lifestyle/celebrity-life/oprah-praises-australias-social-media-ban/video/bead20069152fe60b2fc7914669535a1)
+**Source:** [Read more](https://www.telecomasia.net/news/football/fifa-wants-tiktok-as-video-content-partner-for-2026-world-cup/)
 
-### 2025-12-04 Australian Council to Cease Flying Indigenous Flags, Citing 'Only One Flag' Policy
-An Australian council has sparked controversy by announcing its decision to stop flying Indigenous flags, asserting a policy of "only one flag." This move has ignited a debate about national identity, reconciliation, and the recognition of Indigenous cultures within Australia. The decision underscores ongoing tensions regarding national symbolism and cultural representation, which are critical issues for social cohesion and the nation's progress towards genuine reconciliation with its First Peoples.
-**Source:** [Read more](https://www.skynews.com.au/opinion/paul-murray/only-one-flag-council-to-stop-flying-indigenous-flags/video/244d598619d24017c4f55035ae665cd3)
+### 2024-01-07 World Cup qualification shines as new objective for Congo after Africa Cup 
+The World Cup glitters as a new objective for Congo after its elimination from the Africa Cup of Nations. Congo can clinch one of the last qualification places for the World Cup in Mexico, Canada, and the US with a win over New Caledonia or Jamaica in a playoff in Mexico on March 31.
 
-### 2025-12-03 Australia Grapples with Unsustainable Inflation, Jeopardizing Economic Growth
-Sky News Australia reports that inflation in the country continues to hover at unsustainably high levels, raising concerns about the nation's ability to foster economic growth. Experts suggest that persistent inflation erodes purchasing power and creates uncertainty for businesses and consumers alike. This ongoing economic challenge puts pressure on policymakers to implement effective strategies to stabilize prices and stimulate the economy, impacting the financial well-being of all Australians.
-**Source:** [Read more](https://www.skynews.com.au/opinion/paul-murray/no-ability-to-grow-the-economy-inflation-remains-at-unsustainable-highs/video/44564af0ceafd686c5599236d71be6b7)
+**Source:** [Read more](https://www.foxsports.com/articles/soccer/world-cup-qualification-shines-as-new-objective-for-congo-after-africa-cup)
 
-### 2025-12-03 Sky News Australia Criticizes New York Times Over 'Laughable' Article Questioning Trump's Health
-Sky News Australia has vehemently criticized The New York Times for publishing an article that questioned Donald Trump’s health, labeling it "laughable" and suggesting he is "healthier than a horse." The commentary reflects a broader media ideological divide, particularly concerning reporting on political figures. This incident highlights ongoing debates about journalistic standards, perceived biases in mainstream media, and the intense scrutiny surrounding the health and fitness of prominent political leaders.
-**Source:** [Read more](https://www.skynews.com.au/opinion/rita-panahi/healthier-than-a-horse-new-york-times-slammed-for-laughable-article-questioning-trumps-health/video/291f90328043b6760896d2c7a1639d55)
+### 2024-01-05 Tunisia changes coach before World Cup after disappointing Africa Cup 
+World Cup participant Tunisia has parted with coach Sami Trabelsi and his coaching staff following their last 16 exit at the Africa Cup of Nations.
 
-### 2025-12-03 MLB Trade Rumors Heat Up: Jasson Dominguez Linked to Yankees Shake-Up, Dodgers Pursue Edwin Díaz
-Major League Baseball trade rumors are swirling, with New York Yankees prospect Jasson Dominguez reportedly at the center of a potential significant team shake-up. Simultaneously, the Los Angeles Dodgers are aggressively pursuing star closer Edwin Díaz. These potential moves could dramatically alter the competitive landscape for the upcoming season, as teams look to strengthen their rosters for a championship push. The high-stakes trade market reflects strategic decisions by front offices to acquire talent and optimize their chances of success.
-**Source:** [Read more](https://timesofindia.indiatimes.com/sports/mlb/news/mlb-trade-rumors-jasson-dominguez-linked-to-major-yankees-shake-up-as-dodgers-race-to-land-edwin-daz/articleshow/125740853.cms)
+**Source:** [Read more](https://www.foxsports.com/articles/soccer/tunisia-changes-coach-before-world-cup-after-disappointing-africa-cup)
 
-### 2025-12-03 Leavitt Scolds New York Times Reporter, Declaring 'It's Never Enough'
-In a pointed exchange, Leavitt reportedly scolded a New York Times reporter, expressing frustration with the sentiment that "it's never enough." This interaction underscores the often-strained relationship between political figures and the press, particularly when it comes to scrutiny and accountability. The incident highlights the ongoing tension and the differing perspectives on what constitutes adequate coverage and public transparency in political reporting.
-**Source:** [Read more](https://www.skynews.com.au/opinion/its-never-enough-leavitt-scolds-new-york-times-reporter/video/fa628938d46ff87fa476ed6be124e2ef)
+### 2024-01-09 TikTok and FIFA Team Up for World Cup 2026 Coverage 
+TikTok will become FIFA's first "preferred platform" for the 2026 FIFA World Cup, featuring original content, livestreaming, and behind-the-scenes footage.
+
+**Source:** [Read more](https://www.cnet.com/news/social-media/tiktok-fifa-world-cup-2026-coverage/)
+
+### 2024-01-11 Footy Fix: AFCON moves to the quarterfinals, El Clasico in Jeddah, and FA Cup returns in jam-packed weekend 
+The Africa Cup of Nations has moved to the quarterfinals, while El Clasico is set to take place in Jeddah and the FA Cup returns in a packed weekend.
+
+**Source:** [Read more](https://www.cbssports.com/soccer/news/footy-fix-afcon-moves-to-the-quarterfinals-el-clasico-in-jeddah-and-fa-cup-returns-in-jam-packed-weekend/)
+
+### 2024-01-09 TikTok To Stream 2026 FIFA World Cup Content 
+TikTok has been selected as the preferred platform for the 2026 FIFA World Cup, featuring original content, livestreaming, and behind-the-scenes footage.
+
+**Source:** [Read more](https://www.mediapost.com/publications/article/411881/tiktok-to-stream-2026-fifa-world-cup-content.html)
+
+### 2024-01-09 Neymar's Road to 2026 World Cup Begins; Brazil Legend Recovers From Knee Surgery 
+Neymar has officially commenced his rehabilitation program following knee surgery, marking the first step in his bid to secure a place in Brazil's World Cup squad.
+
+**Source:** [Read more](https://www.foxsports.com/stories/soccer/neymars-road-to-world-cup-begins-as-brazil-legend-starts-recovery-process-from-knee-surgery-after-delay)
+
+### 2024-01-05 World Cup qualification shines as new objective for Congo after Africa Cup 
+The World Cup glitters as a new objective for Congo after its elimination from the Africa Cup of Nations. Congo can clinch one of the last qualification places for the World Cup in Mexico, Canada, and the US with a win over New Caledonia or Jamaica in a playoff in Mexico on March 31.
+
+**Source:** [Read more](https://www.greenwichtime.com/sports/article/world-cup-qualification-shines-as-new-objective-21281064.php)

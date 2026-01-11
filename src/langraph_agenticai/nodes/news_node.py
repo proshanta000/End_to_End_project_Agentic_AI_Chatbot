@@ -1,134 +1,116 @@
 from tavily import TavilyClient
 from langchain_core.prompts import ChatPromptTemplate
-from src.langraph_agenticai.ui.streamlitui.loadui import LoadStreamlitUI
-
+from langchain_core.messages import AIMessage
+import os
+from src.langraph_agenticai.ui.uiconfigfile import Config
 
 class NewsNodes:
-    """
-    Node responsible for fetching and summarizing user entered topic news using Tavily and an LLM.
-    """
     def __init__(self, llm, topicInput):
-        """
-        Initialize the NewsNode with LLM and Tavily Client.
-        
-        Args:
-            llm: The Language Model instance to use for summarization.
-        """
         self.tavily = TavilyClient()
         self.llm = llm
         self.topic = topicInput
-
-        # Dictionary to store state/steps for potential debugging or history tracking
         self.state = {}
+        self.cfg = Config()
 
     def fetch_news(self, state: dict) -> dict:
-        """
-        Fetch  news based on the specified frequency requested by the user.
-
-        Args: 
-            state (dict): The state dictionary containing the current conversation 'messages'.
+        """Fetch news based on user frequency or handle greetings."""
+        user_input = state['messages'][0].content.lower().strip()
         
-        Returns:
-            dict: Updated state with 'news_data' key containing the list of fetched news articles.
-        """
-        # Extract the user's requested frequency (e.g., "daily", "weekly")
-        frequency = state['messages'][0].content.lower()
+        # --- NEW: GREETING CHECK ---
+        # If the user says Hi, we set a flag and skip search
+        if user_input in ["hi", "hello", "hey", "greetings"]:
+            state['is_greeting'] = True
+            state['news_data'] = []
+            return state
+        
+        state['is_greeting'] = False
+        frequency = user_input
         self.state['frequency'] = frequency
         
-        # Mappings to convert user frequency phrases to Tavily API parameters
         time_range_map = {'daily' : 'd', 'weekly': 'w', 'monthly': 'm', 'year': 'y'}
         days_map = {'daily': 1, 'weekly': 7, 'monthly': 30, 'year': 365}
 
-        # Perform the search using Tavily API
-        # We query for top AI technology news in India and globally
-        response = self.tavily.search(
-            query=f'Top news about {self.topic}',
-            topic='news',
-            time_range=time_range_map.get(frequency, 'w'), # Default to weekly if match failed
-            include_answer='advanced', # basic or advanced
-            max_results=10,
-            days=days_map.get(frequency, 7),
-        )
+        try:
+            response = self.tavily.search(
+                query=f'Top news about {self.topic}',
+                topic='news',
+                time_range=time_range_map.get(frequency, 'w'),
+                include_answer='advanced',
+                max_results=10,
+                days=days_map.get(frequency, 7),
+            )
+            state['news_data'] = response.get('results', [])
+        except Exception:
+            state['news_data'] = []
 
-        # Store results in the state
-        state['news_data'] = response.get('results', [])
         self.state['news_data'] = state['news_data']
         return state
     
     def summarize_news(self, state: dict) -> dict:
-        """
-        Summarize the fetched news using the LLM into a readable markdown format.
+        """Summarize news as a MAX ceiling, allowing short responses."""
+        # --- NEW: GREETING RESPONSE ---
+        if state.get('is_greeting'):
+            state['summary'] = "Hello! I'm ready to generate your news report. Please type a frequency like 'daily' or 'weekly' to begin."
+            return state
 
-        Args:
-            state (dict): The state dictionary containing 'news_data'.
+        news_items = self.state.get('news_data', [])
+        limit = self.cfg.get_word_limit() 
 
-        Returns:
-            dict: Updated state with 'summary' key containing the summarized markdown text.
-        """
-        news_items = self.state['news_data']
-
-        # System prompt to guide the LLM's summarization style
-        system = """You are an expert  News reporter.
-        Summarize the provided  news articles into a well-structured markdown report.
+        # --- UPDATED PROMPT: "MAXIMUM" LOGIC ---
+        system = f"""You are an expert News reporter.
+        Summarize the news into a well-structured markdown report.
         
-        For each suitable news item:
-        1. **Headline**: Create a clear, bold title.
-        2. **Date**: Include the date in **YYYY-MM-DD** format (IST timezone if possible).
-        3. **Summary**: Write a detailed yet concise paragraph (3-4 sentences) summarizing the key points. Do NOT just write a single line. Explain *why* it matters.
-        4. **Source**: Provide the source URL as a separate line at the end of the item.
-
-        **Format Guide**:
+        CRITICAL LENGTH RULE: Your total response MUST NOT exceed {limit} words.
+        This is a MAXIMUM limit. You are encouraged to be as brief and concise as possible. 
+        If there is only one article or a simple greeting is needed, use very few words. 
+        DO NOT add extra text or 'fluff' to try and reach the word limit.
+        
+        Format each item as:
         ### [Date] [Headline]
-        [Detailed Summary Paragraph]
+        [Summary Paragraph]
         **Source:** [Read more](Url)
-        
-        Order the news by date (latest first).
-        If multiple articles cover the same topic, combine them into one coherent summary.
         """
         
-        prompt_template = ChatPromptTemplate.from_messages(
-            [
-                ("system", system),
-                ("user", "Here are the articles found:\n{articles}")
-            ]
-        )
+        prompt_template = ChatPromptTemplate.from_messages([
+            ("system", system),
+            ("user", "Articles found:\n{articles}")
+        ])
 
-        # Format the news items into a single string for the prompt
+        if not news_items:
+            state['summary'] = f"No news found for '{self.topic}' in the requested timeframe."
+            return state
+
         articles_str = "\n\n".join([
-            f"Title: {item.get('title', 'Unknown Title')}\nContent: {item.get('content', '')} \nURL: {item.get('url', '')}\nDate: {item.get('published_date', '')}"
+            f"Title: {item.get('title')}\nContent: {item.get('content')}\nURL: {item.get('url')}"
             for item in news_items
         ])
 
-        # Invoke the LLM to generate the summary
         response = self.llm.invoke(prompt_template.format(articles=articles_str))
-        
-        # Store the result in state (fixing previous variable name 'summery' -> 'summary')
         state['summary'] = response.content
-        self.state['summary'] = state['summary']
-        return self.state
+        self.state['summary'] = response.content
+        return state
     
-
-    def saving_result(self, state):
-        """
-        Save the summarized news to a markdown file.
-
-        Args:
-            state (dict): Current state containing 'frequency' and 'summary'.
+    def saving_result(self, state: dict) -> dict:
+        """Save results and update the UI message."""
+        frequency = self.state.get('frequency', 'general')
+        summary = state.get('summary', 'No summary generated.')
+        limit = self.cfg.get_word_limit()
         
-        Returns:
-            dict: Updated state with the 'filename' of the saved report.
-        """
-        frequency = self.state['frequency']
-        summary = self.state['summary']
-        filename = f"./News/{frequency}_summary.md"
+        # Don't save to file if it was just a greeting
+        if state.get('is_greeting'):
+            state['messages'] = [AIMessage(content=summary)]
+            return state
 
-        # Write to file with UTF-8 encoding to handle special characters correctly
-        import os
-        os.makedirs("./News", exist_ok=True) # Ensure directory exists
-        
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(f"# {frequency.capitalize()}  News Summary\n\n")
-            f.write(summary)
-        
-        self.state['filename'] = filename
-        return self.state
+        base_dir = os.getcwd()
+        news_dir = os.path.join(base_dir, "News")
+        os.makedirs(news_dir, exist_ok=True)
+        filename = os.path.join(news_dir, f"{frequency}_summary.md")
+
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(summary)
+            state['messages'] = [AIMessage(content=f"✅ Report (Max: {limit} words):\n\n{summary}")]
+        except Exception as e:
+            state['messages'] = [AIMessage(content=f"❌ Error: {str(e)}")]
+
+        return state

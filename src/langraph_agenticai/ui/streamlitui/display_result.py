@@ -9,86 +9,69 @@ class DisplayResultStreamlit:
         self.user_message = user_message
 
     def extract_text_content(self, msg):
-        """
-        Extracts clean text from Gemini's list-based responses or standard objects.
-        """
-        if msg is None:
-            return ""
-
-        # 1. Handle standard LangChain Message objects (AIMessage/HumanMessage)
+        """Extracts clean text from Gemini/Groq responses."""
+        if msg is None: return ""
         if hasattr(msg, 'content'):
             content = msg.content
-            if isinstance(content, list):
-                return self._parse_list_content(content)
-            return str(content).strip()
-
-        # 2. Handle raw lists (Gemini's complex structure)
-        if isinstance(msg, list):
-            return self._parse_list_content(msg)
-
-        # 3. Handle dictionaries
-        if isinstance(msg, dict):
-            return msg.get("text", str(msg)).strip()
-
+            return self._parse_list_content(content) if isinstance(content, list) else str(content).strip()
+        if isinstance(msg, list): return self._parse_list_content(msg)
+        if isinstance(msg, dict): return msg.get("text", str(msg)).strip()
         return str(msg).strip()
 
     def _parse_list_content(self, content_list):
-        """Helper to extract 'text' from Gemini's part-list."""
         parts = []
         for block in content_list:
-            if isinstance(block, dict):
-                # Extract 'text' and ignore 'extras' or 'signatures'
-                parts.append(block.get("text", ""))
-            elif isinstance(block, str):
-                parts.append(block)
+            if hasattr(block, 'content'): parts.append(str(block.content))
+            elif isinstance(block, dict): parts.append(block.get("text", ""))
+            elif isinstance(block, str): parts.append(block)
         return "".join(parts).strip()
 
     def display_result_on_ui(self):
-        usecase = self.usecase
-        graph = self.graph
-        user_message = self.user_message
+        # 1. Define configuration with thread_id for memory retrieval
+        # Using a fixed ID like "static_user" works for single-user apps.
+        config = {"configurable": {"thread_id": "user_session_1"}}
+        
+        # 2. Prepare the input
+        input_state = {"messages": [HumanMessage(content=self.user_message)]}
 
         # --- CASE 1: BASIC CHATBOT ---
-        if usecase == "Basic Chatbot":
+        if self.usecase == "Basic Chatbot":
             with st.chat_message("user"):
-                st.write(user_message)
+                st.write(self.user_message)
 
-            for event in graph.stream({'messages': [HumanMessage(content=user_message)]}):
+            # Use stream with config to maintain memory
+            for event in self.graph.stream(input_state, config=config):
                 for value in event.values():
-                    raw_msg = value.get("messages")
-                    clean_content = self.extract_text_content(raw_msg)
-                    if clean_content:
-                        with st.chat_message("assistant"):
-                            st.write(clean_content)
+                    if "messages" in value:
+                        # LangGraph returns a list of messages; we want the latest one
+                        last_msg = value["messages"][-1]
+                        clean_content = self.extract_text_content(last_msg)
+                        if clean_content:
+                            with st.chat_message("assistant"):
+                                st.write(clean_content)
 
         # --- CASE 2: CHATBOT WITH WEB ---
-        elif usecase == "Chatbot With Web":
-            initial_state = {"messages": [HumanMessage(content=user_message)]}
-            res = graph.invoke(initial_state)
+        elif self.usecase == "Chatbot With Web":
+            # Use invoke with config
+            res = self.graph.invoke(input_state, config=config)
             
-            # Iterate through messages and filter out 'internal' search steps
             for message in res.get('messages', []):
                 content = self.extract_text_content(message)
-                
                 if isinstance(message, HumanMessage):
                     with st.chat_message("user"):
                         st.write(content)
-                
                 elif isinstance(message, AIMessage):
-                    # FILTER: Skip internal search summaries (Page: ... Summary: ...)
+                    # Filter internal tool steps
                     if "Page:" in content and "Summary:" in content:
                         continue 
-                    
-                    # Display the actual assistant response
                     if content:
                         with st.chat_message("assistant"):
                             st.write(content)
 
         # --- CASE 3: NEWS ---
-        elif usecase == "News":
+        elif self.usecase == "News":
             with st.spinner("Generating News Report..."):
-                graph.invoke({"messages": [HumanMessage(content=user_message)]})
-                
+                res = self.graph.invoke(input_state, config=config)
                 topic = st.session_state.get("topicInput", "news")
                 NEWS_PATH = f"./News/{topic}_summary.md"
                 
@@ -96,4 +79,6 @@ class DisplayResultStreamlit:
                     with open(NEWS_PATH, "r", encoding='utf-8') as f:
                         st.markdown(f.read(), unsafe_allow_html=True)
                 else:
-                    st.error("Summary file could not be located.")
+                    st.warning("Report not found. Showing last AI message:")
+                    if res and "messages" in res:
+                        st.write(self.extract_text_content(res["messages"][-1]))

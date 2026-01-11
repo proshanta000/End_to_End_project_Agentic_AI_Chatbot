@@ -48,3 +48,11 @@ class Config:
             return self.config["DEFAULT"].get("PAGE_TITLE", "Chat-Web-Brief AI")
         except KeyError:
             return "Chat-Web-Brief AI"
+        
+    def get_word_limit(self):
+        """Safely get the word limit as an integer."""
+        try:
+            # getint converts "400" to 400 and handles the fallback if missing
+            return self.config.getint("DEFAULT", "WORD_LIMIT", fallback=400)
+        except (KeyError, ValueError):
+            return 400
