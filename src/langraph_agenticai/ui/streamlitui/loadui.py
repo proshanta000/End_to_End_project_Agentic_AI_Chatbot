@@ -9,7 +9,8 @@ class LoadStreamlitUI:
 
     def load_streamlit_ui(self):
         # --- 1: Set page layout and title with a modern header ---
-        st.set_page_config(page_title="🤖 " + self.config.get_page_title(), layout="wide")
+        page_title = self.config.get_page_title() or "Chat-Web-Brief AI"
+        st.set_page_config(page_title="🤖 " + page_title, layout="wide")
         
         # Use a container for the main title to add a splash of color/style
         st.title("🧠 " + self.config.get_page_title())
