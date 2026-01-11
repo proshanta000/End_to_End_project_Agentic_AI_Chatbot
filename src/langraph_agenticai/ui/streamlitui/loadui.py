@@ -12,17 +12,10 @@ class LoadStreamlitUI:
         st.set_page_config(page_title="🤖 " + self.config.get_page_title(), layout="wide")
         
         # Use a container for the main title to add a splash of color/style
-        st.title("🧠 LangGraph Agentic AI Interface")
+        st.title("🧠 " + self.config.get_page_title())
         st.caption("A multi-agent framework powered by Groq and Gemini.")
         st.markdown("---") # Add a horizontal line for separation
         
-        # Initialize session state variables if they don't exist
-        if "timeframe" not in st.session_state:
-            st.session_state.timeframe = ''
-        if "topicInput" not in st.session_state:
-            st.session_state.topicInput = ''
-        if "ISFetchButtonClicked" not in st.session_state:
-            st.session_state.ISFetchButtonClicked = False
         
         # --- 2: Structure the sidebar with headings and dividers ---
         with st.sidebar:
@@ -34,12 +27,14 @@ class LoadStreamlitUI:
             usecase_options = self.config.get_usecase_options()
 
 
-            # LLM Selecttion 
+            # LLM Provider Selection (e.g., Groq, Gemini)
             st.markdown("### 🤖 LLM Selection")
             self.user_controls["selected_llm"] = st.selectbox("Select LLM Provider", llm_options)
             st.markdown("---")
 
 
+            # --- Dynamic Model & API Key Handling ---
+            # Logic for Groq Selection
             if self.user_controls["selected_llm"] == "Groq":
                 # Model selection
                 model_options = self.config.get_groq_model_options()
@@ -52,6 +47,7 @@ class LoadStreamlitUI:
                 if not self.user_controls["GROQ_API_KEY"]:
                     st.warning("⚠️ Please enter your GROQ API Key to proceed, Don't have? ref : https://console.groq.com/keys")
             
+            # Logic for Gemini Selection
             elif self.user_controls["selected_llm"] == "Gemini":
                 # Model selection
                 model_options = self.config.get_gemini_model_options()
@@ -99,29 +95,29 @@ class LoadStreamlitUI:
                     # Validation remains
                     st.warning("⚠️ Please enter your Tavily API Key to proceed, Don't have? ref : https://app.tavily.com/home")
                 
-                # Removed redundant subheader here, using markdown above
-                topic_input = st.text_input("📝 Enter News Topic:")
-
-                # Moved time_frame selector to a separate container or just ensure good spacing
-                time_frame = st.selectbox(
-                    "🗓️ Select Time Frame",
-                    ["Daily", "Weekly", "Monthly"],
-                    index=0
-                )
-                
-                if topic_input:
-                    # Use a success/primary button style for better visibility
-                    if st.button("🚀 Fetch & Generate Summary", use_container_width = True, type="primary"): 
-                        st.session_state.ISFetchButtonClicked =True
-                        st.session_state.timeframe = time_frame
-                        st.session_state.topicInput = topic_input
-                else:
-                    # Validation remains
-                    st.warning("⚠️ Topic is empty, Please enter the Topic")
+                    
             
             # --- UI Improvement 4: Final Footer/Branding ---
             st.markdown("---")
             st.info("Built with LangGraph & Streamlit.")
+        
+        # 4. Validation Gate: Verify if an API Key is present before allowing data input
+        current_llm = self.user_controls.get("selected_llm")
+        current_usecase = self.user_controls.get("selected_usecase")
+        has_key = False
+        has_key_T = False
+
+        if current_llm == "Groq":
+            has_key = bool(st.session_state.get("GROQ_API_KEY"))
+
+        elif current_llm == "Gemini":
+            has_key = bool(st.session_state.get("GEMINI_API_KEY"))
+        
+        if current_usecase == "Chatbot With Web" or current_usecase == "News":
+            has_key_T = bool(st.session_state.get("TAVILY_API_KEY"))
+        
+        self.user_controls["has_key"] = has_key
+        self.user_controls["has_key_T"] = has_key_T
 
 
         return self.user_controls
